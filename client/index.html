@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>I'm so Emp-tea (lul xD)</title>
+</head>
+<body>
+	<div id="signDiv">
+		Username: <input id="signDiv-name" type="text"></input>
+		<button id="signDiv-button">go~</button>
+	</div>
+	<div id="homeDiv" style="display:none;">
+			<select id="homeDiv-onlinelist" name="Online Players" size="5">
+				<optgroup label="Online Players"></optgroup>
+			</select>
+			<br>
+			<br>
+			<table id='homeDiv-lobbyTable'>
+				<thead>
+					<tr>
+						<th>Lobby Name</th>
+						<th>Open</th>
+						<th>Host</th>
+						<th>Lobby ID</th>
+					</tr>
+				</thead>
+				<tbody id="homeDiv-lobbyList">
+				</tbody>
+			</table>
+			<button id="homeDiv-newlobbybutton">new lobby</button>
+	</div>
+	<div id="lobbyCreateDiv" style="display:none;">
+		Lobby Name: <input id="lobbyCreateDiv-name" type="text"></input> <br><br>
+		other options herrree~~~~ <br><br>
+		<button id="lobbyCreateDiv-button">create lobby</button>
+		<button id="lobbyCreateDiv-cancelbutton">cancel</button>
+	</div>
+	<div id="lobbyDiv" style="display:none;">
+		<select id="lobbyDiv-playerlist" name="Players" size="5">
+			<optgroup label="Players"></optgroup>
+		</select>
+		<button id='lobbyDiv-startbutton'>Start Game</button>
+		<button id='lobbyDiv-leavebutton'>Leave lobby</button>
+	</div>
+	<div id="gameDiv" style="display:none;">
+		<div id="game" style="position:absolute;width:500px;height:500px">
+			<canvas id="canvas" width="500" height="500" style="position:absolute;border:1px solid #000000;"></canvas>
+			<canvas id="canvas-ui" width="500" height="500" style="position:absolute;border:1px solid #000000;"></canvas>
+		</div>
+	</div>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/client/client.js"></script>
+	<!-- <script src="/client/socket.js"></script>	 -->
+</body>
+</html>
