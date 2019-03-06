@@ -6,11 +6,7 @@
 */
 
 (function() { // module pattern
-    let selfid; // id of current client
-    let selfname;
-    let lobbylist = {};
     let onlinelist = {};
-    let playerlist = [];
     let socket = io();
 
     //-------------------------------------------------------------------------
@@ -24,11 +20,7 @@
 
     socket.on('signin approval',function(pack){
         if(pack){
-            // If approved, client is sent back ID and name. 
-            //selfid = pack.id;
-            //selfname = pack.name;
-
-            // Let into Home directory
+            // If allowed, let into Home directory
             document.getElementById('signDiv').style.display = 'none';
             document.getElementById('homeDiv').style.display = 'inline-block';
 
@@ -36,7 +28,7 @@
     });
     
     socket.on('onlinelist change',function(clientlist){
-        // Update local client list
+        // Update local client list, to match names to ids
         onlinelist = clientlist;
 
         // Remove previous client list
@@ -79,6 +71,7 @@
             // If lobby creation approved, let into lobby WITH HOSGT PRIVILEDGE
             document.getElementById('lobbyCreateDiv').style.display = 'none';
             document.getElementById('lobbyDiv').style.display = 'inline-block';
+            document.getElementById('lobbyDiv-host').style.display = 'inline-block';
 
         } else {alert('you did something wrong, try again.');}
     }); 
@@ -93,9 +86,7 @@
     }
 
     socket.on('lobbylist change', function (newlobbylist) {
-        // Update local lobby list
-        //lobbylist = newlobbylist;
-
+        // Delete all in list
         list = document.getElementById('homeDiv-lobbyList');
         while (list.hasChildNodes()) {
             list.removeChild(list.lastChild);
@@ -109,7 +100,8 @@
             `
                 <td>${l.lobbyname}</td>
                 <td>${l.open}</td>
-                <td id="lobbyid">${l.lobbyid}</td>
+                <td id="lobbyid">${l.host}</td>
+                <td id="lobbyid">${lobby}</td>
                 <td><button class="join">Join</button></td>
             `;
             document.getElementById('homeDiv-lobbyList').append(row);
@@ -120,7 +112,6 @@
         // On join button click
         if (e.target.classList.contains('join')){
             let lobbyid = e.target.parentNode.previousElementSibling.innerHTML;
-            console.log('Sending request');
             socket.emit('lobbyjoin', lobbyid);
         }
     }
@@ -130,14 +121,11 @@
             // If approved, allow client into lobby without host priviledge
             document.getElementById('homeDiv').style.display = 'none';
             document.getElementById('lobbyDiv').style.display = 'inline-block';
-
+            document.getElementById('lobbyDiv-host').style.display = 'none';
         } else {alert('no cucks allowed in this room, buddy');}
     });
 
     socket.on('playerlist change', function(playerlist){
-        // Update local playerlist in lobby
-        //playerlist = newplayerlist;
-
         // Remove previous player list
         for(let i = document.getElementById('lobbyDiv-playerlist').options.length-1; i >= 0 ; i--){
             document.getElementById('lobbyDiv-playerlist').remove(i);
@@ -162,9 +150,17 @@
         socket.emit('lobbyleave');
     }
 
-    socket.on('lobbyleave response', function(){
-        // If approved, bring client back into lobby
-        document.getElementById('lobbyDiv').style.display = 'none';
-        document.getElementById('homeDiv').style.display = 'inline-block';
+    socket.on('lobbyleave response', function(approved){
+        if(approved){
+            // If approved, bring client back into lobby
+            document.getElementById('lobbyDiv').style.display = 'none';
+            document.getElementById('lobbyDiv-host').style.display = 'none';
+            document.getElementById('homeDiv').style.display = 'inline-block';
+        }
+        else alert("You aren't in a lobby, bucko!");
     });
+
+    document.getElementById('lobbyDiv-startbutton').onclick = function (){
+        socket.emit('startgame');
+    }
 })();
