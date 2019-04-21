@@ -10,7 +10,7 @@
 	<div id="signDiv">
 		Username: <input id="signDiv-name" type="text"></input>
 		<button id="signDiv-button">go~</button>
-	</div>
+	</div> 
 	<div id="homeDiv" style="display:none;">
 			<select id="homeDiv-onlinelist" name="Online Players" size="5">
 				<optgroup label="Online Players"></optgroup>
@@ -41,15 +41,16 @@
 		<select id="lobbyDiv-playerlist" name="Players" size="5">
 			<optgroup label="Players"></optgroup>
 		</select>
+		<button id='lobbyDiv-teambutton'>Change team</button>
 		<button id='lobbyDiv-leavebutton'>Leave lobby</button>
 		<div id="lobbyDiv-host" style="display: none;">
 			<button id='lobbyDiv-startbutton'>Start Game</button>
 		</div>
 	</div>
 	<div id="gameDiv" style="display:none;">
-		<div id="game" style="position:absolute;width:500px;height:500px">
-			<canvas id="canvas" width="500" height="500" style="position:absolute;border:1px solid #000000;"></canvas>
-			<canvas id="canvas-ui" width="500" height="500" style="position:absolute;border:1px solid #000000;"></canvas>
+		<div id="game" style="white-space: nowrap;">
+			<canvas id="canvas1" style="border:1px solid #000000; overflow:hidden;"></canvas>
+			<canvas id="canvas2" style="border:1px solid #000000; overflow:hidden;"></canvas>
 		</div>
 	</div>
 
